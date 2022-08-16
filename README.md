@@ -1,5 +1,7 @@
 # deep-rent/tyson
 
+![Logo](https://raw.githubusercontent.com/deep-rent/tyson/master/logo.png)
+
 Tyson is a tiny Go library that helps with navigating hierarchies of unknown or dynamic JSON structures parsed into `map[string]any`. It aims to hide the messy type and existence checks that usually occur when dealing with such structures.
 
 ## Installation
