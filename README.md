@@ -4,6 +4,8 @@
 
 Tyson is a tiny Go library that helps with navigating hierarchies of unknown or dynamic JSON structures parsed into `map[string]any`. It aims to hide the messy type and existence checks that usually occur when dealing with such structures.
 
+[![Test Status](https://github.com/deep-rent/tyson/actions/workflows/test.yml/badge.svg)](https://github.com/deep-rent/tyson/actions/workflows/test.yml) [![Documentation](https://img.shields.io/badge/godoc-reference-blue.svg)](https://godoc.org/github.com/deep-rent/tyson) [![Code Quality](https://goreportcard.com/badge/github.com/nanomsg/mangos)](https://goreportcard.com/report/github.com/deep-rent/tyson)
+
 ## Installation
 
 Download the libary using `go get`:
