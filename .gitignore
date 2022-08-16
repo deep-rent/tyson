@@ -1,0 +1,17 @@
+*.dll
+*.dylib
+*.exe
+*.exe~
+*.iml
+*.ipr
+*.iws
+*.out
+*.so
+*.test
+.DS_Store
+.idea/
+.vscode/
+build/
+dist/
+go.work
+out/
