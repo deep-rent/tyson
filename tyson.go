@@ -25,12 +25,12 @@ package tyson
 // the "comma ok" idiom used in Go type casts.
 type Mapper[S any, T any] func(v S) (w T, ok bool)
 
-func asArray(v any) (w []any, ok bool)   { w, ok = v.([]any); return }
-func asBool(v any) (w bool, ok bool)     { w, ok = v.(bool); return }
-func asFloat(v any) (w float64, ok bool) { w, ok = v.(float64); return }
-func asInt(v float64) (w int64, ok bool) { w = int64(v); return w, v == float64(w) }
-func asObject(v any) (w Object, ok bool) { w, ok = v.(map[string]any); return }
-func asString(v any) (w string, ok bool) { w, ok = v.(string); return }
+func AsArray(v any) (w []any, ok bool)   { w, ok = v.([]any); return }
+func AsBool(v any) (w bool, ok bool)     { w, ok = v.(bool); return }
+func AsFloat(v any) (w float64, ok bool) { w, ok = v.(float64); return }
+func AsInt(v float64) (w int64, ok bool) { w = int64(v); return w, v == float64(w) }
+func AsObject(v any) (w Object, ok bool) { w, ok = v.(map[string]any); return }
+func AsString(v any) (w string, ok bool) { w, ok = v.(string); return }
 
 // All "lifts" m to convert a slice of item type S into a slice of item type T.
 // The resulting [Mapper] indicates ok if and only if m was successfully
@@ -131,7 +131,7 @@ func (o Object) Get(keys ...string) Node[any] {
 		n := ValueNode(o)
 		i := 0
 		for i < len(keys)-1 {
-			n = Map(n.Value().get(keys[i]), asObject)
+			n = Map(n.Value().get(keys[i]), AsObject)
 			if n.Empty() {
 				break
 			}
@@ -167,7 +167,7 @@ func (o Object) Remove(k string) { delete(o, k) }
 //
 // See [Object.Get] for an example on how to fetch nested JSON values.
 func (o Object) GetArray(keys ...string) Node[[]any] {
-	return Map(o.Get(keys...), asArray)
+	return Map(o.Get(keys...), AsArray)
 }
 
 // GetBool follows the given hierarchy of keys to fetch a target value from
@@ -177,7 +177,7 @@ func (o Object) GetArray(keys ...string) Node[[]any] {
 //
 // See [Object.Get] for an example on how to fetch nested JSON values.
 func (o Object) GetBool(keys ...string) Node[bool] {
-	return Map(o.Get(keys...), asBool)
+	return Map(o.Get(keys...), AsBool)
 }
 
 // GetFloat follows the given hierarchy of keys to fetch a target value from
@@ -187,7 +187,7 @@ func (o Object) GetBool(keys ...string) Node[bool] {
 //
 // See [Object.Get] for an example on how to fetch nested JSON values.
 func (o Object) GetFloat(keys ...string) Node[float64] {
-	return Map(o.Get(keys...), asFloat)
+	return Map(o.Get(keys...), AsFloat)
 }
 
 // GetInt follows the given hierarchy of keys to fetch a target value from
@@ -197,7 +197,7 @@ func (o Object) GetFloat(keys ...string) Node[float64] {
 //
 // See [Object.Get] for an example on how to fetch nested JSON values.
 func (o Object) GetInt(keys ...string) Node[int64] {
-	return Map(o.GetFloat(keys...), asInt)
+	return Map(o.GetFloat(keys...), AsInt)
 }
 
 // GetObject follows the given hierarchy of keys to fetch a target value from
@@ -207,7 +207,7 @@ func (o Object) GetInt(keys ...string) Node[int64] {
 //
 // See [Object.Get] for an example on how to fetch nested JSON values.
 func (o Object) GetObject(keys ...string) Node[Object] {
-	return Map(o.Get(keys...), asObject)
+	return Map(o.Get(keys...), AsObject)
 }
 
 // GetString follows the given hierarchy of keys to fetch a target value from
@@ -217,7 +217,7 @@ func (o Object) GetObject(keys ...string) Node[Object] {
 //
 // See [Object.Get] for an example on how to fetch nested JSON values.
 func (o Object) GetString(keys ...string) Node[string] {
-	return Map(o.Get(keys...), asString)
+	return Map(o.Get(keys...), AsString)
 }
 
 /* Array type getters */
@@ -229,7 +229,7 @@ func (o Object) GetString(keys ...string) Node[string] {
 //
 // See [Object.Get] for an example on how to fetch nested JSON values.
 func (o Object) GetArrays(keys ...string) Node[[][]any] {
-	return Map(o.GetArray(keys...), All(asArray))
+	return Map(o.GetArray(keys...), All(AsArray))
 }
 
 // GetBools follows the given hierarchy of keys to fetch a target value from
@@ -239,7 +239,7 @@ func (o Object) GetArrays(keys ...string) Node[[][]any] {
 //
 // See [Object.Get] for an example on how to fetch nested JSON values.
 func (o Object) GetBools(keys ...string) Node[[]bool] {
-	return Map(o.GetArray(keys...), All(asBool))
+	return Map(o.GetArray(keys...), All(AsBool))
 }
 
 // GetFloats follows the given hierarchy of keys to fetch a target value from
@@ -249,7 +249,7 @@ func (o Object) GetBools(keys ...string) Node[[]bool] {
 //
 // See [Object.Get] for an example on how to fetch nested JSON values.
 func (o Object) GetFloats(keys ...string) Node[[]float64] {
-	return Map(o.GetArray(keys...), All(asFloat))
+	return Map(o.GetArray(keys...), All(AsFloat))
 }
 
 // GetInts follows the given hierarchy of keys to fetch a target value from
@@ -259,7 +259,7 @@ func (o Object) GetFloats(keys ...string) Node[[]float64] {
 //
 // See [Object.Get] for an example on how to fetch nested JSON values.
 func (o Object) GetInts(keys ...string) Node[[]int64] {
-	return Map(o.GetFloats(keys...), All(asInt))
+	return Map(o.GetFloats(keys...), All(AsInt))
 }
 
 // GetObjects follows the given hierarchy of keys to fetch a target value from
@@ -269,7 +269,7 @@ func (o Object) GetInts(keys ...string) Node[[]int64] {
 //
 // See [Object.Get] for an example on how to fetch nested JSON values.
 func (o Object) GetObjects(keys ...string) Node[[]Object] {
-	return Map(o.GetArray(keys...), All(asObject))
+	return Map(o.GetArray(keys...), All(AsObject))
 }
 
 // GetStrings follows the given hierarchy of keys to fetch a target value from
@@ -279,5 +279,5 @@ func (o Object) GetObjects(keys ...string) Node[[]Object] {
 //
 // See [Object.Get] for an example on how to fetch nested JSON values.
 func (o Object) GetStrings(keys ...string) Node[[]string] {
-	return Map(o.GetArray(keys...), All(asString))
+	return Map(o.GetArray(keys...), All(AsString))
 }
