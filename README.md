@@ -77,8 +77,6 @@ xyz: def
 str: def
 ```
 
-
-
 ## Remarks
 
 - Parsing JSON into `map[string]any` is known to be slow. If you deal with large JSON objects, or target only a small subset of the entire structure, you should look for libraries that implement specialized parsers.
