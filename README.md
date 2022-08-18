@@ -39,7 +39,7 @@ _ = json.Unmarshal([]byte(`
 `), &o)
 ```
 
-Using the `GetXXX()` methods, you can fetch specific values from the wrapped structure in a type-safe manner. Getters are available for Go equivalents of all JSON types including arrays. Each getter can take multiple keys to target nested values:
+Using the `GetXXX()` methods, you can fetch specific values from the wrapped structure in a type-safe manner. Getters are available for Go equivalents of all JSON types, including arrays. Each getter can take multiple keys to target nested values:
 
 ```go
 fmt.Printf("num: %d\n", o.GetInt("obj", "num").Value())
@@ -80,7 +80,7 @@ str: def
 ## Remarks
 
 - Parsing JSON into `map[string]any` is known to be slow. If you deal with large JSON objects, or target only a small subset of the entire structure, you should look for libraries that implement specialized parsers.
-- The `GetInt` and `GetInts` methods of `Object` require the target value to actually be an integral number. For example, `42` and `42.00` are valid integers, but `42.01` causes the getters to return an empty `Node.`
+- The `GetInt` and `GetInts` methods of `Object` require the target value to actually be an integral number. For example, `42` and `42.00` are valid integers, but `42.01` causes the getters to return an empty `Node`.
 
 ## License
 
