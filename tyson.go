@@ -37,7 +37,7 @@ func AsString(v any) (w string, ok bool) { w, ok = v.(string); return }
 // All "lifts" m to convert a slice of item type S into a slice of item type T.
 // The resulting [Mapper] indicates ok if and only if m was successfully
 // applied to each element of the input slice.
-func All[S any, T any](m Mapper[S, T]) Mapper[[]S, []T] {
+func All[S, T any](m Mapper[S, T]) Mapper[[]S, []T] {
 	return func(v []S) (w []T, ok bool) {
 		w = make([]T, len(v))
 		for i, x := range v {
@@ -53,7 +53,7 @@ func All[S any, T any](m Mapper[S, T]) Mapper[[]S, []T] {
 
 // One returns a [Mapper] that applies the given mappers one after another
 // until the first to succeed. It fails if none of the mappers succeed.
-func One[S any, T any](mappers ...Mapper[S, T]) Mapper[S, T] {
+func One[S, T any](mappers ...Mapper[S, T]) Mapper[S, T] {
 	return func(v S) (w T, ok bool) {
 		for _, m := range mappers {
 			w, ok = m(v)
@@ -112,7 +112,7 @@ func (v value[T]) OrGet(func() T) T { return v.value }
 
 // Map applies m to convert the value contained in n. If n is empty, the
 // resulting [Node] will be empty as well.
-func Map[S any, T any](n Node[S], m Mapper[S, T]) Node[T] {
+func Map[S, T any](n Node[S], m Mapper[S, T]) Node[T] {
 	if !n.Empty() {
 		if v, ok := m(n.Value()); ok {
 			return ValueNode(v)
