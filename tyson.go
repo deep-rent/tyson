@@ -65,6 +65,18 @@ func One[S, T any](mappers ...Mapper[S, T]) Mapper[S, T] {
 	}
 }
 
+// And returns a composed [Mapper] that first applies m and then n.
+func And[R, S, T any](m Mapper[R, S], n Mapper[S, T]) Mapper[R, T] {
+	return func(u R) (w T, ok bool) {
+		var v S
+		v, ok = m(u)
+		if ok {
+			w, ok = n(v)
+		}
+		return
+	}
+}
+
 // A Node is a container which may or may not contain a value of type T. If a
 // value is present, Empty returns false and Value will return the value.
 // Additional methods that depend on the presence or absence of a contained

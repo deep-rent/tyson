@@ -53,12 +53,8 @@ func TestAll_Fail(t *testing.T) {
 }
 
 func TestOne(t *testing.T) {
-	f := func(v int) (string, bool) {
-		return "", false
-	}
-	s := func(v int) (string, bool) {
-		return strconv.Itoa(v), true
-	}
+	f := func(v int) (string, bool) { return "", false }
+	s := func(v int) (string, bool) { return strconv.Itoa(v), true }
 
 	m := tyson.One(f, s, f)
 
@@ -70,20 +66,36 @@ func TestOne(t *testing.T) {
 	}
 
 	if act != exp {
-		t.Errorf("want %v, was %v", exp, act)
+		t.Errorf("want %q, was %q", exp, act)
 	}
 }
 
 func TestOne_Fail(t *testing.T) {
-	f := func(v int) (string, bool) {
-		return "", false
-	}
+	f := func(v int) (string, bool) { return "", false }
 
 	m := tyson.One(f, f, f)
 
 	_, ok := m(1)
 	if ok {
 		t.Fatalf("ok was %t", ok)
+	}
+}
+
+func TestAnd(t *testing.T) {
+	g := func(v int) (string, bool) { return strconv.Itoa(v), true }
+	h := func(v string) (int, bool) { w, err := strconv.Atoi(v); return w, err == nil }
+
+	m := tyson.And(g, h)
+
+	exp := 1
+	act, ok := m(1)
+
+	if !ok {
+		t.Fatalf("ok was %t", ok)
+	}
+
+	if act != exp {
+		t.Errorf("want %d, was %d", exp, act)
 	}
 }
 
