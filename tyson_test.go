@@ -52,6 +52,41 @@ func TestAll_Fail(t *testing.T) {
 	}
 }
 
+func TestOne(t *testing.T) {
+	f := func(v int) (string, bool) {
+		return "", false
+	}
+	s := func(v int) (string, bool) {
+		return strconv.Itoa(v), true
+	}
+
+	m := tyson.One(f, s, f)
+
+	exp := "1"
+	act, ok := m(1)
+
+	if !ok {
+		t.Fatalf("ok was %t", ok)
+	}
+
+	if act != exp {
+		t.Errorf("want %v, was %v", exp, act)
+	}
+}
+
+func TestOne_Fail(t *testing.T) {
+	f := func(v int) (string, bool) {
+		return "", false
+	}
+
+	m := tyson.One(f, f, f)
+
+	_, ok := m(1)
+	if ok {
+		t.Fatalf("ok was %t", ok)
+	}
+}
+
 func TestMap(t *testing.T) {
 	n := tyson.ValueNode(123)
 	v := tyson.Map(n, func(v int) (string, bool) {

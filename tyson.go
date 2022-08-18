@@ -25,6 +25,8 @@ package tyson
 // the "comma ok" idiom used in Go type casts.
 type Mapper[S any, T any] func(v S) (w T, ok bool)
 
+/* Default mappers */
+
 func AsArray(v any) (w []any, ok bool)   { w, ok = v.([]any); return }
 func AsBool(v any) (w bool, ok bool)     { w, ok = v.(bool); return }
 func AsFloat(v any) (w float64, ok bool) { w, ok = v.(float64); return }
@@ -46,6 +48,20 @@ func All[S any, T any](m Mapper[S, T]) Mapper[[]S, []T] {
 			}
 		}
 		return w, true
+	}
+}
+
+// One returns a [Mapper] that applies the given mappers one after another
+// until the first to succeed. It fails if none of the mappers succeed.
+func One[S any, T any](mappers ...Mapper[S, T]) Mapper[S, T] {
+	return func(v S) (w T, ok bool) {
+		for _, m := range mappers {
+			w, ok = m(v)
+			if ok {
+				break
+			}
+		}
+		return
 	}
 }
 
